@@ -3,21 +3,21 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class Generator(nn.Module):
-    def __init__(self, latent_dims):
+    def __init__(self, latent_dims, momentum=0.8):
         super(Generator, self).__init__()
         self.latent_dims = latent_dims
         
         self.fc1 = nn.Linear(latent_dims, 128)
-        self.fc1_bn = nn.BatchNorm2d(128, momentum=0.8)
+        self.fc1_bn = nn.BatchNorm2d(128, momentum=momentum)
         
         self.fc2 = nn.Linear(128, 256)
-        self.fc2_bn = nn.BatchNorm2d(256, momentum=0.8)
+        self.fc2_bn = nn.BatchNorm2d(256, momentum=momentum)
         
         self.fc3 = nn.Linear(256, 512)
-        self.fc3_bn = nn.BatchNorm2d(512, momentum=0.8)
+        self.fc3_bn = nn.BatchNorm2d(512, momentum=momentum)
         
         self.fc4 = nn.Linear(512, 1024)
-        self.fc4_bn = nn.Linear(1024, momentum=0.8)
+        self.fc4_bn = nn.BatchNorm2d(1024, momentum=momentum)
         
         self.fc5 = nn.Linear(1024, 784)
 
