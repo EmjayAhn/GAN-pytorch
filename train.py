@@ -1,4 +1,5 @@
 import torch
+import matplotlib.pyplot as plt
 
 def train_model(discriminator, generator, batch_size,
                 dis_optimizer, gen_optimizer,
@@ -13,7 +14,7 @@ def train_model(discriminator, generator, batch_size,
             
             #### DISCRIMINATOR
             # Real Image 에 대한 loss
-            dis_results = discriminator(images)
+            dis_results = discriminator(batch_images)
             dis_real_loss = criterion(dis_results, reals)
             
             # Fake Image 에 대한 loss
@@ -41,8 +42,15 @@ def train_model(discriminator, generator, batch_size,
             gen_loss.backward()
             gen_optimizer.step()
             
-            if batch_index % 300 == 0:
+            if batch_index % 100 == 0:
                 print("EPOCH {}: BATCH: {}, discrim_loss: {}, generator_loss: {}".format(epoch, batch_index, dis_total_loss, gen_loss))
+        
+        with torch.no_grad():
+            testing_fake_images = generator(torch.randn(1, 64).to(device))
+            testing_fake_images = testing_fake_images.reshape(28, 28).cpu().numpy()
+            plt.title("GENERATED IMAGE, EPOCH {}".format(epoch))
+            plt.imshow(testing_fake_images)
+            plt.show()
             
     return discriminator, generator
 
