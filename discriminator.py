@@ -13,4 +13,4 @@ class Discriminator(nn.Module):
         x = F.leaky_relu(self.fc1(x), negative_slope=0.2)
         x = F.leaky_relu(self.fc2(x), negative_slope=0.2)
         x = self.fc3(x)
-        return F.sigmoid(x)
+        return torch.sigmoid(x)
