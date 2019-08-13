@@ -40,7 +40,10 @@ def train_model(latent_dims, discriminator, generator, batch_size,
             dis_results = discriminator(fake_images)
             
             # Fake Image 에 대한 generator loss
-            # 여기가 매우 중요, 우리가 generator 를 train 할 때는, log(D(G(z)))를 최대화 해야한다.
+            # 여기가 매우 중요, 우리가 generator 를 train 할 때는, log(1-D(G(z)))를 최소화 하기로 하였다.
+            # 하지만, -log(D(G(z)))를 최소화 한다면, 원 식의 방향과 같은 방향으로 최적화가 된다.
+            # 이는 log(1-x) 식이 그 기울기가 매우 작기 때문에, 매우 오래 걸리는 것을 보완하기 위함이다.
+            # 그리고 -log(D(G(z)))의 최소화는 log(D(G(z)))의 최대화와 같다.
             gen_loss = criterion(dis_results, reals)
             
             discriminator.zero_grad()
