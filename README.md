@@ -12,14 +12,14 @@ GAN 은 최근 인기를 끌고 있는 generative model 중 하나입니다. 다
 
 GAN 의 아버지 Ian Goodfellow가 제안한 이 모델은 두가지 신경망으로 구성 되어 있습니다. 먼저, 우리가 가지고 있는 데이터와 비슷하게 데이터를 생성하는 것을 학습하는 **Generator** 와 Generator 가 생성한 데이터(fake)와 실제 우리가 가지고 있는 데이터(real)를 fake 인지 real 인지 구분하는 **Discriminator** 를 구분하는 두 신경망으로 구성되어 있습니다. 
 
-![](Untitled-b4ab047c-a850-427f-8e06-379dce74e281.png)
+![](./images/Untitled-b4ab047c-a850-427f-8e06-379dce74e281.png)
 
 ### 1-1. Generator
 
 - Generator 는 Gaussian Random Noise (mean=0, std=1) 를 입력으로 받아, 이 noise로 부터 data 를 생성해냅니다.
 - 이번 구현에서 Generator는 다음과 같이 작성하였습니다.
 
-![](Untitled-5a191f6c-b437-4eab-89a7-b34692124ac3.png)
+![](./images/Untitled-5a191f6c-b437-4eab-89a7-b34692124ac3.png)
 
 - Dense layer 만 사용했으며, gradient vanishing 현상을 막기 위해 activation 을 거친 후, Batch Normalization 을 추가하였습니다.
 
@@ -29,13 +29,13 @@ GAN 의 아버지 Ian Goodfellow가 제안한 이 모델은 두가지 신경망�
 - 아래의 Loss Function 을 확인 하겠지만, 진짜 데이터에 대해서는 그 확률 값을 높게 하고, 가짜데이터에서는 그 확률 값을 0에 가깝게 하는 것이 이 모델의 optimize 목표입니다.
 - 이번 구현에서 Discriminator를 다음과 같이 작성하였습니다.
 
-![](Untitled-4de92b80-7e9d-452e-9956-0298c2b493e2.png)
+![](./images/Untitled-4de92b80-7e9d-452e-9956-0298c2b493e2.png)
 
 ## 2. Loss Function
 
 ### 2-1. Loss Function 의 해석
 
-$$\underset{G}{\text{min}}\underset{D}{\text{max}}V(D, G)=E_{x~p_{data(x)}}[logD(x)]+E_{z~p_{z}(z)}[log(1-D(G(z)))]$$
+![](./images/latex.png)
 
 Vanilla GAN 의 Loss function 은 위와 같습니다. Loss Function 의 구조 자체는 min-max 최적화로써, Discriminator와 Generator 의 loss 함수를 각각 최적화 해 나아가면서 위 식의 균형 향해 다가가는 것입니다.
 
